@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script language=javascript>
+function doPrint() {
+    bdhtml = window.document.body.innerHTML;
+    sprnstr = "<!--startprint-->";
+    eprnstr = "<!--endprint-->";
+    prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+    prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+    window.document.body.innerHTML = prnhtml;
+    window.print();
+}
+</script>
+<script language="JavaScript">
+var hkey_root, hkey_path, hkey_key
+hkey_root = "HKEY_CURRENT_USER"
+hkey_path = "SoftwareMicrosoftInternet ExplorerPageSetup"
+    //设置网页打印的页眉页脚为空
+function pagesetup_null() {
+    try {
+        var RegWsh = new ActiveXObject("WScript.Shell")
+        hkey_key = "header"
+        RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+        hkey_key = "footer"
+        RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+    } catch (e) {}
+}
+//设置网页打印的页眉页脚为默认值
+function pagesetup_default() {
+    try {
+        var RegWsh = new ActiveXObject("WScript.Shell")
+        hkey_key = "header";
+        RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "header");
+        hkey_key = "footer";
+        RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "footer");
+    } catch (e) {}
+}
+</script>
+
+<body>
+    <input type="button" value="清空页码" onclick=pagesetup_null()>
+    <input type="button" value="恢复页码" onclick=pagesetup_default()>
+    <a href="javascript:;" onClick="doPrint()">打印</a>
+    <!--startprint-->
+    test
+    <!--endprint-->
+</body>
+
+</html>
